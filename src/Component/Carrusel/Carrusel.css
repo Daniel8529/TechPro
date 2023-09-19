@@ -1,0 +1,24 @@
+.contenedor {
+  width: auto;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+.Carrusel-img {
+
+  width: 700px;
+  height: 500px;
+
+}
+
+
+.carousel-item {
+  width: 100%;
+  height: 100%;
+}
+
+.d-block {
+  width: 100%;
+  height: 100%;
+}

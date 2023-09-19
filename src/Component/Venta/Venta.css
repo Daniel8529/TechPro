@@ -1,0 +1,60 @@
+.Pagina_Inicio {
+
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(255, 255, 255);
+  
+  
+  }
+  .card {
+    width: 340px;
+    height: 470px;
+    margin-left: 25px;
+    margin-top: 25px;
+
+
+
+    
+}
+.Imagens{
+    width: 100%;
+    height: 270px;
+ 
+}
+
+.cuerpo-card {
+    width: 1120px;
+    height: auto;
+    margin: 10px 170px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color:#D8D8D8;
+
+}
+.datos-card{
+    width: 100%;
+    height: 200px;
+    margin-top: 0px;
+    text-align: center;
+    background-color: rgb(230, 232, 232);
+    
+}
+.boton-agregar{
+    
+    width: 50px;
+    height: 50px;
+    margin-left: 280px;
+    margin-top: 10px;
+    position: absolute;
+    border-radius: 20px;
+    background-color: #ffffff;
+   color: rgb(0, 0, 0);
+}
+
+.cuerpo_Pago{
+    width: 500px;
+    height: 500px;
+    margin-left: 35px;
+    margin-top: 25px;
+    background-color: red;
+}

@@ -1,0 +1,19 @@
+.contenedor-principal {
+  width: 300px;
+  height: 600px;
+  background-color: blue;
+ 
+
+
+
+}
+
+.nombre {
+  background-color: #666;
+  color: white;
+  font-family: 'Times New Roman', Times, serif;
+  padding: 10px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+}
