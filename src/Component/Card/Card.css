@@ -10,7 +10,7 @@
 }
 .Imagens{
     width: 100%;
-    height: 270px;
+    height: 50%;
  
 }
 
@@ -22,6 +22,7 @@
     flex-wrap: wrap;
     background-color:#ffffff;
     /* background-color:#D8D8D8; */
+    scroll-behavior: smooth;
 
 }
 .datos-card{

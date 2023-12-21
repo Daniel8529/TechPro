@@ -1,4 +1,4 @@
-.Pagina_Inicio {
+.Pagina_Inicios {
 
     width: 100%;
     height: 100vh;
@@ -6,7 +6,7 @@
   
   
   }
-  .card {
+  .cards {
     width: 340px;
     height: 470px;
     margin-left: 25px;
@@ -16,13 +16,13 @@
 
     
 }
-.Imagens{
+.Imagenss{
     width: 100%;
     height: 270px;
  
 }
 
-.cuerpo-card {
+.cuerpo-cards {
     width: 1120px;
     height: auto;
     margin: 10px 170px;
@@ -31,7 +31,7 @@
     background-color:#D8D8D8;
 
 }
-.datos-card{
+.datos-cards{
     width: 100%;
     height: 200px;
     margin-top: 0px;
@@ -39,7 +39,7 @@
     background-color: rgb(230, 232, 232);
     
 }
-.boton-agregar{
+.boton-agregars{
     
     width: 50px;
     height: 50px;
@@ -51,7 +51,7 @@
    color: rgb(0, 0, 0);
 }
 
-.cuerpo_Pago{
+.cuerpo_Pagos{
     width: 500px;
     height: 500px;
     margin-left: 35px;

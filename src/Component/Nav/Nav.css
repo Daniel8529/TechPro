@@ -46,6 +46,7 @@ h1{
 .scrollable-menu {
     max-height: 500px; /* ajusta el valor según tus necesidades */
     overflow-y: auto;
+    scroll-behavior: smooth;
 }
 .container-fluid{
     width: 350px;

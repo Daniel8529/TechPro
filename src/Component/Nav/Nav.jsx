@@ -32,14 +32,18 @@ import { useSelector } from 'react-redux';
 //   Nombre: "samsung galixi 23s", Pantalla: "FULLHD", Ram: "8ram", Almacenamiento: "240GB", Cantidad: 15, Precio: 30000, Disponible: true,
 // }]
 
-function Nav() {
+function Nav({ datos, datos2,setestadoUsurio }) {
 
+  const [carrito, setcarrito] = useState([])
   const [m, setm] = useState([])
   const [searchValue, setSearchValue] = useState("");
   const [user, setUser] = useState({})
   const clientID = "69152384335-uo8a54kf1sm9nkpmf26b34d7j8lbs95p.apps.googleusercontent.com"
   const [userInfo, setUserInfo] = useState(null);
-  const Articuloslist = useSelector(state => state.Articulos.listArticulo)
+  const [contador,setcontador]=useState(0)
+ const [estadoeliminar, setEstadoeliminar] = useState(0)
+  
+
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
@@ -51,34 +55,82 @@ function Nav() {
     fetchEventoData()
   };
 
+ const home= async () =>{
+ 
+    try {
+      
+        const response = await fetch("http://localhost:5211/api/Articulos/", {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+          },
 
+
+        })
+
+        const data = await response.json()
+        console.log("Aqui fetch buscar ")
+        console.log(data)
+        datos2(data)
+      
+
+    } catch (error) {
+      console.log(error)
+    }
+         
+ }
 
   const fetchEventoData = async () => {
     try {
-      const response = await fetch("http://localhost:5211/api/Articulos/Buscar/" + searchValue + "/", {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      if(searchValue) {
+        const response = await fetch("http://localhost:5211/api/Articulos/Buscar/" + searchValue + "/", {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+          },
 
 
-      })
+        })
 
-      const data = await response.json()
-      console.log("Aqui fetch buscar ")
-      console.log(data)
-      setm(data)
+        const data = await response.json()
+        console.log("Aqui fetch buscar ")
+        console.log(data)
+        setm(data)
+        datos2(data)
+      }
 
     } catch (error) {
       console.log(error)
     }
   }
 
-  const respuestaGoogle = (respuesta) => {
+  const respuestaGoogle =(respuesta) => {
     // Aquí puedes acceder a la respuesta con la información del usuario autenticado
-    console.log(respuesta);
+    console.log("Propiedades del usuario",respuesta)
     const { profileObj } = respuesta;
     setUserInfo(profileObj)
+    setestadoUsurio(profileObj.email)
+    fetch("http://localhost:5211/api/Usuario", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "correo": profileObj.email,
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      
+      fetchEventoData();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  
+    console.log("se ejecuto");
+  
+    
   };
 
   const respuestaError = (error) => {
@@ -90,42 +142,53 @@ function Nav() {
       console.error(error);
     }
   };
-  const Close=()=>{
+  const Close = () => {
     setUserInfo(null)
+    setestadoUsurio(null)
+    setcarrito([])
+    setcontador(0)
   }
 
-   
+  
 
-  const [carrito, setcarrito] = useState([])
+
+
   useEffect(() => {
-    
-      const fetchEventoDataCarritos = async () => {
-        try {
-          const response = await fetch("http://localhost:5211/api/Carritos", {
-            method: "GET",
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            
-  
-          })
-  
-          const data = await response.json()
-          console.log("Aqui fetch ")
-          console.log(data)
-          setcarrito(data)
-  
-        } catch (error) {
-          console.log(error)
-        }
-      }
-  
-      fetchEventoDataCarritos()
 
-    
-  
-    
-  }, [Articuloslist])
+    const fetchEventoDataCarritos = async () => {
+      try {
+        const response = await fetch("http://localhost:5211/api/Carritos", {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+
+
+        })
+
+        const data = await response.json()
+        console.log("Aqui fetch ")
+        console.log(data)
+        if(userInfo)
+            setcontador(0)
+          data.map((numero)=>{
+            if(numero.correo==userInfo.email){
+              setcontador(contador=>contador+1)
+            }
+       
+      })   
+      setcarrito(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchEventoDataCarritos()
+
+
+
+
+  }, [datos,userInfo,estadoeliminar])
 
 
   useEffect(() => {
@@ -133,7 +196,28 @@ function Nav() {
     console.log("Aqui esta mi dato ")
     console.log(carrito)
   }, [carrito])
- 
+
+
+  const Eliminar=async(id)=>{
+    setEstadoeliminar(0)
+   
+      try {
+        const response = await fetch("http://localhost:5211/api/Carritos/" + id, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+            
+        })
+        
+      } catch (error) {
+        console.log(error)
+      }
+   
+    setEstadoeliminar(1)
+
+  }
 
 
 
@@ -145,7 +229,7 @@ function Nav() {
         <img src="https://th.bing.com/th/id/OIP.llwDwEEyoebFungZ_F3RFAHaHa?pid=ImgDet&rs=1" className="d-block w-100" alt="..." />
       </div>
       <div className='Texto'>
-        <Link className="nav-link" ><h1 className="nav-link ">Home</h1></Link>
+        <Link to={"/Todo"} onClick={home} className="nav-link" ><h1 className="nav-link ">Home</h1></Link>
 
       </div>
 
@@ -174,20 +258,22 @@ function Nav() {
       </nav>
 
       <div className="dropdown">
-        <button  className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i className="bi bi-cart-plus-fill" /> {carrito.length}
+        <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i className="bi bi-cart-plus-fill" /> {contador}
         </button>
         <ul className="dropdown-menu scrollable-menu" >
           <button className="handleSerachnver">Ver Todo</button>
-          {carrito.map((numero) => (
+          {carrito.map((numero) => (numero.correo==userInfo.email ?(
             <li key={numero.idCarritos}>
-              <button className="dropdown-item" type="button">
+              <Link to={"/Venta/"+numero.idArticuloss} className="dropdown-item" type="button">
                 <img src={numero.imagen} className="Img" alt="..." />
                 <h5 className="card-title">{numero.nombre}</h5>
                 <h6 className="card-title">Almacenamiento: {numero.almacenamiento}</h6>
                 <h6 className="card-title"><i className="bi bi-tags" />Precios: {numero.precios}</h6>
-              </button>
+              </Link>
+              <button onClick={() => Eliminar(numero.idCarritos)} className="btn btn-primary">Eliminar</button>
             </li>
+          ):null
           ))}
         </ul>
 
@@ -209,9 +295,9 @@ function Nav() {
 
         ) : (
           <>
-          <img className="googleimagen" src={userInfo.imageUrl} alt="..." />
-          <button className='button-close' onClick={Close}>close</button>
-          
+            <img className="googleimagen" src={userInfo.imageUrl} alt="..." />
+            <button className='button-close' onClick={Close}>close</button>
+
           </>
 
         )}

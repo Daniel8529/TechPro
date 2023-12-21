@@ -3,14 +3,15 @@ import "../Venta/Venta.css"
 import { Router, Routes, Route } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.min.js"
-
+import {useParams} from "react-router-dom"
 function Venta() {
+  const  datos  = useParams();
      const [numero, setm] = useState([])
   useEffect(() => {
 
     const fetchEventoData = async () => {
       try {
-        const response = await fetch("http://localhost:5211/api/Articulos/1", {
+        const response = await fetch("http://localhost:5211/api/Articulos/"+datos.id, {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
@@ -31,7 +32,7 @@ function Venta() {
 
     fetchEventoData()
 
-  }, [])
+  }, [datos])
 
 
   useEffect(() => {
@@ -42,12 +43,12 @@ function Venta() {
 
 
   return (
-    <div className='cuerpo-card'>
+    <div className='cuerpo-cards'>
       
-        <div key={numero.idArticulos} className="card">
+        <div key={numero.idArticulos} className="cards">
           
-          <img src={numero.imagen} className="Imagens" alt="..." />
-          <div className='datos-card'>
+          <img src={numero.imagen} className="Imagenss" alt="..." />
+          <div className='datos-cards'>
 
             <h5 className="card-title">{numero.nombre}</h5>
             <h6 className="card-title">Pantalla: {numero.pantalla}</h6>
@@ -59,7 +60,7 @@ function Venta() {
           </div>
         </div>
 
-        <div className='cuerpo_Pago' >
+        <div className='cuerpo_Pagos' >
 
         </div>
       
